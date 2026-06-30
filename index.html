@@ -14,6 +14,7 @@
    TOKENS
 ========================================================= */
 :root{
+  font-size: clamp(1rem, 2vw +0.5rem, 1.25rem);
   --bg:#160b24;
   --bg-alt:#1d1038;
   --panel:#241546;
@@ -71,6 +72,7 @@ h1,h2,h3{ font-family:var(--f-display); line-height:1.4; }
     scroll-behavior:auto !important;
   }
 }
+
 
 /* =========================================================
    AMBIENT CRT / SCANLINE OVERLAY (signature texture)
@@ -207,6 +209,7 @@ h1,h2,h3{ font-family:var(--f-display); line-height:1.4; }
   .mobile-menu{ display:none; }
 }
 
+
 /* =========================================================
    LAYOUT HELPERS
 ========================================================= */
@@ -284,10 +287,17 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
 }
 .ability .glyph{ font-size:1.2rem; }
 
-@media (max-width:880px){
-  .hero .wrap,
-  .level--about .wrap{ grid-template-columns:1fr; }
-  .char-card{ max-width:340px; margin-inline:auto; }
+@media (max-width: 880px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  
+  /* Change About section from Grid to Flex to stop horizontal squeezing */
+  .level--about .wrap { 
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--sp-4); 
+  }
+  
+  .char-card { max-width: 340px; margin-inline: auto; }
 }
 
 /* =========================================================
@@ -427,6 +437,27 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
     
 }
 .level-title{ color:orange; }
+
+.level-desc {
+  color: var(--muted);
+  font-family: var(--f-body); /* Or use var(--f-mono) if you want it to match the hero bio */
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 100%;
+}
+
+.about-right {
+  width: 100%; /* Guarantees the container takes up all available space */
+}
+
+.level-desc {
+  color: var(--muted);
+  font-family: var(--f-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  letter-spacing: 0.4px; /* Gives the words horizontal breathing room */
+  max-width: 100%;
+}
 
 /* ========================================================
    pixel man
@@ -695,21 +726,80 @@ footer p{ font-family:var(--f-mono); font-size:.75rem; color:var(--muted); lette
     --sp-4:1.25rem;
     --sp-5:2.25rem;
     --sp-6:3.25rem;
+  
+  .level--about .wrap { 
+    gap: var(--sp-4); 
   }
+
+  /* Reduce the large gap above the pixel avatar */
+  .about-left .eyebrow { 
+    margin-bottom: 1rem; 
+  }
+
+  /* Scale down the paragraph perfectly for mobile reading */
+  .level-desc {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    /* Optional: Uncomment the next line if you want the text to align to both edges like a newspaper */
+    /* text-align: justify; hyphens: auto; */
+  }
+  
+  .about-left {
+    width: 100%;
+    margin-bottom: -1rem; /* Pulls the text up closer to the avatar */
+  }
+
+  .level-desc {
+    font-size: 0.95rem; /* Slightly larger than last time for clarity */
+    line-height: 1.75;
+    padding-right: 0.25rem; /* Prevents text from rubbing perfectly against the screen edge */
+  }
+
+  .level--about {
+    min-height: auto;
+    padding-top: 4rem; 
+    padding-bottom: 3rem;
+  }
+
+  /* 2. Box up the text and make it scrollable */
+  .level-desc {
+    max-height: 220px; /* Limits the height to minimize screen real estate */
+    overflow-y: auto;  /* Enables vertical scrolling */
+    
+    /* Adds a neat gamer-style terminal box around it */
+    background: rgba(29, 16, 56, 0.5); /* Semi-transparent var(--bg-alt) */
+    border: 2px solid var(--panel-2);
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  /* 3. Custom Arcade Scrollbar (Webkit browsers) */
+  .level-desc::-webkit-scrollbar {
+    width: 6px;
+  }
+  .level-desc::-webkit-scrollbar-track {
+    background: var(--bg-alt);
+    border-left: 1px solid var(--panel-2);
+  }
+  .level-desc::-webkit-scrollbar-thumb {
+    background: var(--pink); 
+  }
+}
+}
+
   .site-nav{ padding:var(--sp-1) var(--sp-2); }
   .logo{ font-size:.85rem; }
   .hero,
   .level--about{ padding-top:5.5rem; }
   .hero-name{ font-size:clamp(2rem,11vw,2.8rem); text-shadow:3px 3px 0 var(--pink), 6px 6px 0 var(--cyan); }
   .level--about .hero-name{ font-size:clamp(2rem,11vw,2.8rem); text-shadow:3px 3px 0 var(--pink), 6px 6px 0 var(--cyan); }
-}
 </style>
 </head>
 <body>
 
 <!-- ===================== BOOT SCREEN ===================== -->
 <div id="boot-screen">
-  <p class="boot-line">GABZY.EXE</p>
+  <p class="boot-line">GABRIEL.EXE</p>
   <div class="boot-bar"><div class="boot-bar__fill"></div></div>
   <p class="boot-status">LOADING ASSETS...</p>
 </div>
@@ -773,7 +863,7 @@ footer p{ font-family:var(--f-mono); font-size:.75rem; color:var(--muted); lette
         <div class="char-card__avatar">
           <img src="IMG-20260421-WA0015.jpg" alt="Gabzy" style="width:100%; height:100%; object-fit:cover; object-position:top;">
         </div>
-        <p class="char-card__name">PLAYER: GABZY</p>
+        <p class="char-card__name">PLAYER: GABRIEL NGIGI</p>
         <div class="ability-row">
           <div class="ability"><span class="glyph">💻</span>WEB DEV</div>
           <div class="ability"><span class="glyph">🎨</span>ART</div>
