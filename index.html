@@ -174,7 +174,8 @@ h1,h2,h3{ font-family:var(--f-display); line-height:1.4; }
 
 .menu-toggle{
   background:none; border:3px solid var(--ink); color:var(--ink);
-  width:42px; height:42px; cursor:pointer; font-size:1.1rem;
+  width:44px; height:44px; cursor:pointer; font-size:1.1rem;
+  flex-shrink:0; -webkit-tap-highlight-color:transparent;
 }
 
 .mobile-menu{
@@ -184,12 +185,15 @@ h1,h2,h3{ font-family:var(--f-display); line-height:1.4; }
   transform:translateY(-110%);
   transition:transform .25s ease;
   padding:var(--sp-2) var(--sp-4) var(--sp-4);
+  max-height:calc(100vh - 64px);
+  overflow-y:auto;
 }
 .mobile-menu.open{ transform:translateY(0); }
 .mobile-menu ul{ display:flex; flex-direction:column; gap:var(--sp-2); }
 .mobile-menu a{
   text-decoration:none; color:var(--ink); font-family:var(--f-mono);
   font-size:.95rem; letter-spacing:1px; display:flex; gap:var(--sp-2); align-items:center;
+  padding:.6rem .2rem; min-height:44px;
 }
 .mobile-menu .node{
   width:24px; height:24px; border:2px solid var(--cyan); color:var(--cyan);
@@ -243,6 +247,7 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
   text-shadow:4px 4px 0 var(--pink), 8px 8px 0 var(--cyan);
   margin-bottom:var(--sp-3);
   line-height:1.1;
+  word-break:break-word;
 }
 .hero-tag{
   font-size:clamp(1rem,2.2vw,1.3rem);
@@ -258,13 +263,14 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
   border:var(--bw) solid var(--ink); background:var(--panel);
   box-shadow:8px 8px 0 var(--pink);
   padding:var(--sp-3);
+  width:100%;
 }
 .char-card__avatar{
   border:3px dashed var(--muted);
   background:repeating-linear-gradient(45deg, var(--bg-alt) 0 10px, var(--panel-2) 10px 20px);
   aspect-ratio:1/1; display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:var(--sp-1); color:var(--muted); font-family:var(--f-mono); font-size:.75rem;
-  text-align:center; margin-bottom:var(--sp-3);
+  text-align:center; margin-bottom:var(--sp-3); overflow:hidden;
 }
 .char-card__name{
   font-family:var(--f-mono); font-weight:700; color:var(--yellow); letter-spacing:1px;
@@ -279,21 +285,23 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
 .ability .glyph{ font-size:1.2rem; }
 
 @media (max-width:880px){
-  .hero .wrap{ grid-template-columns:1fr; }
-  .char-card{ max-width:340px; }
+  .hero .wrap,
+  .level--about .wrap{ grid-template-columns:1fr; }
+  .char-card{ max-width:340px; margin-inline:auto; }
 }
 
 /* =========================================================
    BUTTONS
 ========================================================= */
 .btn{
-  display:inline-flex; align-items:center; gap:.5rem;
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
   font-family:var(--f-mono); font-weight:700; font-size:.78rem;
   letter-spacing:1.5px; text-transform:uppercase; text-decoration:none;
   padding:.95rem 1.5rem; border:3px solid var(--ink);
   background:var(--pink); color:var(--bg);
   box-shadow:4px 4px 0 var(--ink); cursor:pointer;
   transition:transform .12s ease, box-shadow .12s ease;
+  min-height:44px; -webkit-tap-highlight-color:transparent;
 }
 .btn:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink); }
 .btn:active{ transform:translate(1px,1px); box-shadow:1px 1px 0 var(--ink); }
@@ -304,6 +312,11 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
 }
 .btn--ghost:hover{ box-shadow:6px 6px 0 var(--cyan); }
 .btn--block{ width:100%; justify-content:center; }
+
+@media (max-width:480px){
+  .hero-cta .btn,
+  .hero-cta .btn--ghost{ width:100%; }
+}
 
 /* =========================================================
    STAT / XP PANEL
@@ -325,7 +338,9 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
 .stat-value{ font-family:var(--f-mono); font-size:.78rem; color:var(--ink); text-align:right; }
 
 @media (max-width:600px){
-  .stat-row{ grid-template-columns:100px 1fr 40px; }
+  .stat-row{ grid-template-columns:88px 1fr 38px; gap:.6rem; }
+  .stat-label{ font-size:.68rem; }
+  .stat-value{ font-size:.68rem; }
 }
 
 /* =========================================================
@@ -352,6 +367,7 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
   background:repeating-linear-gradient(135deg, var(--bg-alt) 0 12px, var(--panel-2) 12px 24px);
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.4rem;
   color:var(--muted); font-family:var(--f-mono); font-size:.7rem; letter-spacing:1px; text-align:center;
+  overflow:hidden;
 }
 .placeholder-thumb .glyph{ font-size:1.8rem; }
 .cartridge__tag{
@@ -403,6 +419,7 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
     align-items:center;
     justify-content:flex-start;
     height:100%;
+    min-width:0;
 }
 .about-left .eyebrow{
     margin-bottom:2rem;
@@ -415,8 +432,9 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
    pixel man
 ========================================================= */
 .pixel-avatar{
-  width: 400px;
-  height: 400px;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
   margin-left: auto;
   margin-right: auto;
   border:none;
@@ -436,6 +454,10 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
     to { background-position: -300px; }
 }
 
+@media (max-width:480px){
+  .pixel-avatar{ max-width:220px; }
+}
+
 
 
 /* =========================================================
@@ -449,6 +471,11 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
 }
 .quest-banner h3{ font-size:1.05rem; margin:.4rem 0 .5rem; }
 .quest-banner p{ color:var(--muted); max-width:480px; }
+.quest-banner .btn{ width:100%; }
+
+@media (min-width:520px){
+  .quest-banner .btn{ width:auto; }
+}
 
 /* =========================================================
    ART FRAMES
@@ -461,8 +488,12 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
   border:5px solid var(--yellow); background:var(--panel); padding:.6rem;
   cursor:pointer; transition:transform .2s ease, box-shadow .2s ease;
   box-shadow:5px 5px 0 rgba(0,0,0,.35);
+  -webkit-tap-highlight-color:transparent;
 }
 .frame:hover{ transform:rotate(-1deg) translateY(-3px); box-shadow:8px 8px 0 var(--cyan); }
+.frame img{
+  aspect-ratio:4/5; width:100%; object-fit:cover; object-position:center;
+}
 .frame__inner{
   aspect-ratio:4/5; width:100%;
   background:repeating-linear-gradient(45deg, var(--bg-alt) 0 10px, var(--panel-2) 10px 20px);
@@ -486,11 +517,17 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
   max-width:min(90vw,520px); width:100%; padding:var(--sp-2);
   position:relative;
 }
+.lightbox-box img{ width:100%; aspect-ratio:4/5; object-fit:cover; }
 .lightbox-box .frame__inner{ aspect-ratio:4/5; }
 .lightbox-close{
   position:absolute; top:-18px; right:-18px;
-  width:36px; height:36px; border:3px solid var(--ink); background:var(--pink); color:var(--bg);
+  width:40px; height:40px; border:3px solid var(--ink); background:var(--pink); color:var(--bg);
   cursor:pointer; font-family:var(--f-mono); font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+
+@media (max-width:480px){
+  .lightbox-close{ top:-14px; right:0; }
 }
 
 /* =========================================================
@@ -522,11 +559,12 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
   padding:var(--sp-3); text-align:center; font-family:var(--f-mono);
   font-size:.7rem; color:var(--muted); margin-bottom:var(--sp-2); letter-spacing:.5px;
 }
-.play-btn{ font-size:.72rem; }
+.play-btn{ font-size:.72rem; min-height:40px; padding:.7rem 1.1rem; }
 
 @media (max-width:560px){
-  .tape{ grid-template-columns:1fr; }
-  .tape__reel{ justify-self:start; }
+  .tape{ grid-template-columns:64px 1fr; gap:var(--sp-2); padding:var(--sp-2); }
+  .tape__reel{ width:56px; height:56px; justify-self:start; }
+  .play-btn{ width:100%; }
 }
 
 /* =========================================================
@@ -567,8 +605,14 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
 .trophy .glyph{ font-size:1.1rem; }
 
 @media (max-width:600px){
+  .scoreboard{ padding:var(--sp-3); }
   .scoreboard__stats{ grid-template-columns:1fr 1fr; }
+  .stat-block .num{ font-size:1.25rem; }
   .rank-badge{ margin-left:0; }
+}
+
+@media (max-width:380px){
+  .scoreboard__stats{ grid-template-columns:1fr; }
 }
 
 /* =========================================================
@@ -596,7 +640,7 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
 }
 #contactForm input, #contactForm textarea{
   width:100%; background:var(--bg-alt); border:2px solid var(--panel-2); color:var(--ink);
-  padding:.7rem .8rem; font-family:var(--f-body); font-size:.95rem; margin-top:.2rem;
+  padding:.7rem .8rem; font-family:var(--f-body); font-size:1rem; margin-top:.2rem;
 }
 #contactForm input:focus, #contactForm textarea:focus{ border-color:var(--cyan); }
 #contactForm textarea{ min-height:120px; resize:vertical; }
@@ -608,9 +652,11 @@ section.level{ padding:var(--sp-6) 0; position:relative; }
   border:2px solid var(--panel-2); background:var(--bg-alt); padding:.85rem 1rem;
   font-family:var(--f-mono); font-size:.8rem; text-decoration:none; color:var(--ink);
   letter-spacing:.5px; transition:border-color .15s, transform .15s;
+  min-height:44px; word-break:break-word;
 }
 .contact-link:hover{ border-color:var(--cyan); transform:translateX(4px); }
-.contact-link .badge{
+.contact-link .badge,
+.contact-link .social_btn{
   width:26px; height:26px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
   border:2px solid currentColor; font-size:.65rem; font-weight:700;
 }
@@ -640,6 +686,23 @@ footer p{ font-family:var(--f-mono); font-size:.75rem; color:var(--muted); lette
   transform:translateY(140%); transition:transform .35s ease; max-width:280px;
 }
 .toast.show{ transform:translateY(0); }
+
+/* =========================================================
+   MOBILE SPACING TUNE-UP (small screens)
+========================================================= */
+@media (max-width:600px){
+  :root{
+    --sp-4:1.25rem;
+    --sp-5:2.25rem;
+    --sp-6:3.25rem;
+  }
+  .site-nav{ padding:var(--sp-1) var(--sp-2); }
+  .logo{ font-size:.85rem; }
+  .hero,
+  .level--about{ padding-top:5.5rem; }
+  .hero-name{ font-size:clamp(2rem,11vw,2.8rem); text-shadow:3px 3px 0 var(--pink), 6px 6px 0 var(--cyan); }
+  .level--about .hero-name{ font-size:clamp(2rem,11vw,2.8rem); text-shadow:3px 3px 0 var(--pink), 6px 6px 0 var(--cyan); }
+}
 </style>
 </head>
 <body>
@@ -846,33 +909,32 @@ footer p{ font-family:var(--f-mono); font-size:.75rem; color:var(--muted); lette
     <div class="wrap">
       <p class="eyebrow">Level 2</p>
       <h2 class="level-title">Art Gallery</h2>
-      <p class="level-sub">Sketches, doodles, and the occasional masterpiece-in-progress. Click a frame to view it bigger.</p>
+      <p class="level-sub">Sketches, doodles, and the occasional masterpiece-in-progress. Tap a frame to view it bigger.</p>
 
-      <!-- ART FRAMES — duplicate this block for each drawing. Replace .frame__inner's contents with
-           <img src="your-art.jpg" alt="describe the piece"> once you have images. -->
+      <!-- ART FRAMES — duplicate this block for each drawing. -->
       <div class="frame-grid">
         <div class="frame" tabindex="0" role="button" aria-label="View artwork 1 larger">
-          <img src="dr1.jpg" alt="Artwork 1" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+          <img src="dr1.jpg" alt="Artwork 1">
           <p class="frame__caption">Artwork title</p>
         </div>
         <div class="frame" tabindex="0" role="button" aria-label="View artwork 2 larger">
-          <img src="dr2.jpg" alt="Artwork 2" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+          <img src="dr2.jpg" alt="Artwork 2">
           <p class="frame__caption">Artwork</p>
         </div>
         <div class="frame" tabindex="0" role="button" aria-label="View artwork 3 larger">
-          <img src="dr3.jpeg" alt="Artwork 3" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+          <img src="dr3.jpeg" alt="Artwork 3">
           <p class="frame__caption">Artwork</p>
         </div>
         <div class="frame" tabindex="0" role="button" aria-label="View artwork 4 larger">
-          <img src="dr4.jpeg" alt="Artwork 4" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+          <img src="dr4.jpeg" alt="Artwork 4">
           <p class="frame__caption">Artwork</p>
         </div>
         <div class="frame" tabindex="0" role="button" aria-label="View artwork 5 larger">
-          <img src="dr5.jpeg" alt="Artwork 5" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+          <img src="dr5.jpeg" alt="Artwork 5">
           <p class="frame__caption">Artwork</p>
         </div>
         <div class="frame" tabindex="0" role="button" aria-label="View artwork 6 larger">
-          <img src="dr6.jpeg" alt="Artwork 6" style="width:100%; height:100%; object-fit:cover; object-position:center;">
+          <img src="dr6.jpeg" alt="Artwork 6">
           <p class="frame__caption">Artwork</p>
         </div>
       </div>
@@ -886,8 +948,7 @@ footer p{ font-family:var(--f-mono); font-size:.75rem; color:var(--muted); lette
       <h2 class="level-title">Beat Lab</h2>
       <p class="level-sub">Demo beats below. Originals soon dropping.</p>
 
-      <!-- BEAT TAPES — duplicate this block for each track. Replace .placeholder-embed with your
-           SoundCloud/YouTube <iframe> embed code. -->
+      <!-- BEAT TAPES — duplicate this block for each track. -->
       <div class="tape-grid">
 
         <div class="tape">
@@ -983,12 +1044,12 @@ footer p{ font-family:var(--f-mono); font-size:.75rem; color:var(--muted); lette
             <label for="cf-message">Message</label>
             <textarea id="cf-message" name="message" required></textarea>
           </div>
-          <button class="btn btn--primary btn--block" type="submit" href="mailto:luluhatma9@gmail.com">Send message →</button>
+          <button class="btn btn--primary btn--block" type="submit">Send message →</button>
           <p class="form-note">This opens your email app with the message ready to send.</p>
         </form>
 
         <div class="contact-links">
-          <!-- REPLACE the email address and every href="#" below with your real links -->
+          <!-- REPLACE every href below with your real links -->
           <a class="contact-link" href="mailto:luluhatma9@gmail.com"><span class="badge">✉</span>EMAIL — luluhatma9@gmail.com</a>
           <a class="contact-link" href="https://github.com/ngigigabriel1-cpu" target="_blank" rel="noopener"><span class="social_btn">GH</span>GITHUB</a>
           <a class="contact-link" href="https://instagram.com/lactose_th3_intolerant" target="_blank" rel="noopener"><span class="social_btn">IG</span>INSTAGRAM</a>
@@ -1084,51 +1145,71 @@ footer p{ font-family:var(--f-mono); font-size:.75rem; color:var(--muted); lette
     });
   }
 
-  /* ---------- BEAT TAPE PLAY TOGGLE ---------- */
+  /* ---------- BEAT TAPE PLAY TOGGLE (reel spin) ---------- */
   document.querySelectorAll('[data-play]').forEach(function(btn){
     btn.addEventListener('click', function(){
       var tape = btn.closest('.tape');
       var reel = tape.querySelector('[data-reel]');
-      var spinning = reel.classList.toggle('spinning');
-      btn.innerHTML = spinning ? '⏸ Pause' : '▶ Preview';
+      var audio = tape.querySelector('.track-audio');
+      // sync the reel spin with actual audio play state, handled below too
+      if(audio && !audio.paused){
+        reel.classList.add('spinning');
+      } else {
+        reel.classList.remove('spinning');
+      }
     });
   });
 
   /* ---------- AUDIO TRACKS ---------- */
-  // 1. Select all the play buttons on the page
-const playButtons = document.querySelectorAll('.play-btn');
+  var playButtons = document.querySelectorAll('.play-btn');
 
-playButtons.forEach(button => {
-  button.addEventListener('click', function() {
-    // Find the audio element early so we can attach multiple listeners if needed
-    const tapeContainer = this.closest('.tape');
-    const audio = tapeContainer.querySelector('.track-audio');
+  playButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      var tapeContainer = this.closest('.tape');
+      var audio = tapeContainer.querySelector('.track-audio');
+      var reel = tapeContainer.querySelector('[data-reel]');
 
-        // Play or Pause logic
-        if (audio.paused) {
-            // Pause all other playing tracks first
-            document.querySelectorAll('.track-audio').forEach(a => a.pause());
-            document.querySelectorAll('.play-btn').forEach(b => b.innerHTML = '► Preview');
+      if (audio.paused) {
+        // Pause all other playing tracks first
+        document.querySelectorAll('.track-audio').forEach(function(a){ a.pause(); });
+        document.querySelectorAll('.play-btn').forEach(function(b){ b.innerHTML = '▶ Preview'; });
+        document.querySelectorAll('[data-reel]').forEach(function(r){ r.classList.remove('spinning'); });
 
-            // Play the clicked track and update button text
-            audio.play();
-            this.innerHTML = '❚❚ Pause'; 
-        } else {
-            // Pause the track and revert button text
-            audio.pause();
-            this.innerHTML = '► Preview';
-        }
+        audio.play();
+        this.innerHTML = '❚❚ Pause';
+        if(reel) reel.classList.add('spinning');
+      } else {
+        audio.pause();
+        this.innerHTML = '▶ Preview';
+        if(reel) reel.classList.remove('spinning');
+      }
     });
-});
-
+  });
 
   /* ---------- ART LIGHTBOX ---------- */
   var lightbox = document.getElementById('lightbox');
   var lightboxContent = document.getElementById('lightboxContent');
   var lightboxClose = document.getElementById('lightboxClose');
 
-  function openLightbox(frameInnerHTML){
-    lightboxContent.innerHTML = frameInnerHTML;
+  function openLightbox(frameEl){
+    var img = frameEl.querySelector('img');
+    var caption = frameEl.querySelector('.frame__caption');
+    lightboxContent.innerHTML = '';
+    if(img){
+      var bigImg = document.createElement('img');
+      bigImg.src = img.src;
+      bigImg.alt = img.alt;
+      lightboxContent.appendChild(bigImg);
+    } else {
+      var inner = frameEl.querySelector('.frame__inner');
+      if(inner) lightboxContent.innerHTML = inner.innerHTML;
+    }
+    if(caption){
+      var cap = document.createElement('p');
+      cap.className = 'frame__caption';
+      cap.textContent = caption.textContent;
+      lightboxContent.appendChild(cap);
+    }
     lightbox.classList.add('open');
   }
   function closeLightbox(){
@@ -1137,12 +1218,12 @@ playButtons.forEach(button => {
   }
   document.querySelectorAll('.frame').forEach(function(frame){
     frame.addEventListener('click', function(){
-      openLightbox(frame.querySelector('.frame__inner').innerHTML);
+      openLightbox(frame);
     });
     frame.addEventListener('keydown', function(e){
       if(e.key === 'Enter' || e.key === ' '){
         e.preventDefault();
-        openLightbox(frame.querySelector('.frame__inner').innerHTML);
+        openLightbox(frame);
       }
     });
   });
@@ -1169,8 +1250,7 @@ playButtons.forEach(button => {
     var message = form.message.value.trim();
     var subject = encodeURIComponent('Website inquiry from ' + name);
     var body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
-    // REPLACE you@example.com with your real email address
-    window.location.href = 'mailto:you@example.com?subject=' + subject + '&body=' + body;
+    window.location.href = 'mailto:luluhatma9@gmail.com?subject=' + subject + '&body=' + body;
     showToast('Opening your email app…');
   });
 
